@@ -28,6 +28,7 @@ public class CommmonUIController {
 	private static final String VIEWNAME_JSON_TREE = "jsontree.html";
 	private static final String VIEWNAME_REST_UI = "restui.html";
 	private static final String INPUT_FORM_DTO = "dto";
+	private static final String VIEWNAME_HOME = "home.html";
 
 	private final RestCallService restCallService;
 
@@ -71,5 +72,10 @@ public class CommmonUIController {
 			httpModel.setError(e.getMessage());
 		}
 		return VIEWNAME_REST_UI; // Return a result.html template to display the submitted data
+	}
+	
+	@GetMapping("/home")
+	public String home() {
+		return VIEWNAME_HOME;
 	}
 }

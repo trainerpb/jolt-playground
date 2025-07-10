@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>JoltSpecTemplate CRUD</title>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.0/css/bootstrap.min.css}" />
+</head>
+<body class="container mt-4">
+    <h2>JoltSpecTemplate List</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Content</th>
+                <th>Created By</th>
+                <th>Modified By</th>
+                <th>Created At</th>
+                <th>Modified At</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr th:each="t : ${templates}">
+            <td th:text="${t.id}">1</td>
+            <td th:text="${t.name}">Name</td>
+            <td th:text="${t.description}">Description</td>
+            <td th:text="${t.content}">Content</td>
+            <td th:text="${t.createdBy}">Created By</td>
+            <td th:text="${t.modifiedBy}">Modified By</td>
+            <td th:text="${t.createdAt}">Created At</td>
+            <td th:text="${t.modifiedAt}">Modified At</td>
+            <td>
+                <a th:href="@{'/jolt-spec-templates/edit/' + ${t.id}}" class="btn btn-sm btn-primary">Edit</a>
+                <a th:href="@{'/jolt-spec-templates/delete/' + ${t.id}}" class="btn btn-sm btn-danger"
+                   onclick="return confirm('Are you sure?')">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h2 th:text="${template.id != null} ? 'Edit JoltSpecTemplate' : 'Create JoltSpecTemplate'"></h2>
+    <form th:action="@{/jolt-spec-templates/save}" th:object="${template}" method="post" class="mb-4">
+        <input type="hidden" th:field="*{id}"/>
+        <div class="mb-2">
+            <label>Name</label>
+            <input type="text" th:field="*{name}" class="form-control" required/>
+        </div>
+        <div class="mb-2">
+            <label>Description</label>
+            <input type="text" th:field="*{description}" class="form-control"/>
+        </div>
+        <div class="mb-2">
+            <label>Content</label>
+            <textarea th:field="*{content}" class="form-control"></textarea>
+        </div>
+        <div class="mb-2">
+            <label>Created By</label>
+            <input type="text" th:field="*{createdBy}" class="form-control"/>
+        </div>
+        <div class="mb-2">
+            <label>Modified By</label>
+            <input type="text" th:field="*{modifiedBy}" class="form-control"/>
+        </div>
+        <button type="submit" class="btn btn-success" th:text="${template.id != null} ? 'Update' : 'Create'"></button>
+        <a th:href="@{/jolt-spec-templates}" class="btn btn-secondary">Clear</a>
+    </form>
+</body>
+</html>

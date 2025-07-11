@@ -4,67 +4,307 @@
     <title>JoltSpecTemplate CRUD</title>
     <meta charset="UTF-8"/>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.0/css/bootstrap.min.css}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Add Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        body {
+            font-family: 'Montserrat', Arial, sans-serif;
+            background: linear-gradient(120deg, #232526 0%, #414345 100%);
+            color: #f4f4f4;
+            min-height: 100vh;
+        }
+        .container {
+            background: rgba(34, 40, 49, 0.96);
+            border-radius: 18px;
+            box-shadow: 0 6px 32px rgba(0,0,0,0.12);
+            padding: 40px 30px 30px 30px;
+            margin-top: 40px;
+        }
+        h2 {
+            color: #00adb5;
+            font-weight: 700;
+            margin-bottom: 24px;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+        .table-responsive {
+            max-height: 420px;
+            overflow-y: auto;
+            margin-bottom: 24px;
+        }
+        table {
+            background: #232931;
+            color: #eeeeee;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,173,181,0.08);
+            margin-bottom: 0;
+        }
+        thead {
+            background: linear-gradient(90deg, #393e46 60%, #00adb5 100%);
+            color: #fff;
+            position: sticky;
+            top: 0;
+            z-index: 2;
+        }
+        th, td {
+            vertical-align: middle !important;
+            text-align: center;
+        }
+        .table-bordered th, .table-bordered td {
+            border-color: #00adb5;
+        }
+        .btn-primary {
+            background: linear-gradient(90deg, #00adb5 60%, #393e46 100%);
+            border: none;
+            color: #232931;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(90deg, #393e46 60%, #00adb5 100%);
+            color: #fff;
+        }
+        .btn-danger {
+            background: linear-gradient(90deg, #ff1744 60%, #393e46 100%);
+            border: none;
+            color: #fff;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        .btn-danger:hover {
+            background: linear-gradient(90deg, #393e46 60%, #ff1744 100%);
+        }
+        .btn-success {
+            background: linear-gradient(90deg, #43e97b 60%, #38f9d7 100%);
+            border: none;
+            color: #232931;
+            font-weight: 700;
+            transition: background 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 18px rgba(67,233,123,0.18);
+            font-size: 1.25rem;
+            padding: 1rem 2.2rem;
+            border-radius: 2.5rem;
+            letter-spacing: 1px;
+        }
+        .btn-success:hover, .btn-success:focus {
+            background: linear-gradient(90deg, #38f9d7 60%, #43e97b 100%);
+            color: #232931;
+            box-shadow: 0 6px 24px rgba(67,233,123,0.28);
+            outline: none;
+        }
+        .btn-secondary {
+            background: #393e46;
+            border: none;
+            color: #eeeeee;
+            font-weight: 600;
+        }
+        .btn {
+            font-size: 1.15rem;
+            padding: 0.7rem 1.6rem;
+            border-radius: 2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5em;
+        }
+        .btn-sm {
+            font-size: 1rem;
+            padding: 0.5rem 1.2rem;
+        }
+        .form-control {
+            background: #232931;
+            color: #eeeeee;
+            border: 1px solid #00adb5;
+            border-radius: 8px;
+            transition: border 0.2s;
+            min-height: 44px;
+            font-size: 1.08rem;
+            padding: 10px 14px;
+            text-align: center;
+        }
+        .form-control:focus {
+            border: 2px solid #00adb5;
+            background: #232931;
+            color: #fff;
+            box-shadow: none;
+        }
+        textarea.form-control {
+            min-height: 320px;
+            max-height: 600px;
+            font-family: 'Fira Mono', 'Consolas', monospace;
+            font-size: 1.08rem;
+            resize: vertical;
+            line-height: 1.5;
+            padding: 18px;
+            text-align: left;
+        }
+        label {
+            color: #00adb5;
+            font-weight: 600;
+            display: block;
+            text-align: center;
+        }
+        .mb-2 label {
+            margin-bottom: 4px;
+        }
+        form {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .form-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
+            gap: 18px;
+        }
+        .form-row label {
+            min-width: 120px;
+            text-align: right;
+            margin-bottom: 0;
+            font-size: 1.08rem;
+        }
+        .form-row .form-control {
+            flex: 1 1 0;
+            min-width: 200px;
+            margin-left: 0;
+            text-align: left;
+        }
+        .form-row.textarea-row {
+            align-items: flex-start;
+        }
+        .form-row.textarea-row label {
+            padding-top: 12px;
+        }
+        @media (max-width: 700px) {
+            .form-row {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 6px;
+            }
+            .form-row label {
+                text-align: left;
+                min-width: 0;
+                padding-top: 0;
+            }
+            .form-row .form-control {
+                min-width: 0;
+            }
+        }
+        @media (max-width: 900px) {
+            .container {
+                padding: 18px 5px 18px 5px;
+            }
+            table, thead, tbody, th, td, tr {
+                font-size: 0.95rem;
+            }
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 8px 2px 8px 2px;
+            }
+            h2 {
+                font-size: 1.3rem;
+            }
+            table, thead, tbody, th, td, tr {
+                font-size: 0.85rem;
+            }
+            textarea.form-control {
+                min-height: 180px;
+            }
+        }
+    </style>
 </head>
-<body class="container mt-4">
-    <h2>JoltSpecTemplate List</h2>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Content</th>
-                <th>Created By</th>
-                <th>Modified By</th>
-                <th>Created At</th>
-                <th>Modified At</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        <tr th:each="t : ${templates}">
-            <td th:text="${t.id}">1</td>
-            <td th:text="${t.name}">Name</td>
-            <td th:text="${t.description}">Description</td>
-            <td th:text="${t.content}">Content</td>
-            <td th:text="${t.createdBy}">Created By</td>
-            <td th:text="${t.modifiedBy}">Modified By</td>
-            <td th:text="${t.createdAt}">Created At</td>
-            <td th:text="${t.modifiedAt}">Modified At</td>
-            <td>
-                <a th:href="@{'/jolt-spec-templates/edit/' + ${t.id}}" class="btn btn-sm btn-primary">Edit</a>
-                <a th:href="@{'/jolt-spec-templates/delete/' + ${t.id}}" class="btn btn-sm btn-danger"
-                   onclick="return confirm('Are you sure?')">Delete</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+<body>
+    <div class="container">
+        <h2>JoltSpecTemplate List</h2>
+        <div class="table-responsive">
+            <table class="table table-bordered mb-4">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Content</th>
+                        <th>Created By</th>
+                        <th>Modified By</th>
+                        <th>Created At</th>
+                        <th>Modified At</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr th:each="t : ${templates}">
+                    <td th:text="${t.id}">1</td>
+                    <td th:text="${t.name}">Name</td>
+                    <td th:text="${t.description}">Description</td>
+                    <td>
+                        <pre style="white-space:pre-wrap; background: #232931; color: #00adb5; border:none; margin:0; font-size:0.95em;" th:text="${t.content}">Content</pre>
+                    </td>
+                    <td th:text="${t.createdBy}">Created By</td>
+                    <td th:text="${t.modifiedBy}">Modified By</td>
+                    <td th:text="${t.createdAt}">Created At</td>
+                    <td th:text="${t.modifiedAt}">Modified At</td>
+                    <td>
+                        <a th:href="@{'/jolt-spec-templates/edit/' + ${t.id}}" class="btn btn-sm btn-primary mb-1">
+                            <i class="fa-solid fa-pen-to-square"></i> Edit
+                        </a>
+                        <a th:href="@{'/jolt-spec-templates/delete/' + ${t.id}}" class="btn btn-sm btn-danger"
+                           onclick="return confirm('Are you sure?')">
+                            <i class="fa-solid fa-trash"></i> Delete
+                        </a>
 
-    <h2 th:text="${template.id != null} ? 'Edit JoltSpecTemplate' : 'Create JoltSpecTemplate'"></h2>
-    <form th:action="@{/jolt-spec-templates/save}" th:object="${template}" method="post" class="mb-4">
-        <input type="hidden" th:field="*{id}"/>
-        <div class="mb-2">
-            <label>Name</label>
-            <input type="text" th:field="*{name}" class="form-control" required/>
+                        <a th:href="@{'/jolt-spec-templates/delete/' + ${t.id}}" class="btn btn-sm btn-primary mb-1
+                           ">
+                            <i class="fa-solid fa-view"></i> Test Run
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
-        <div class="mb-2">
-            <label>Description</label>
-            <input type="text" th:field="*{description}" class="form-control"/>
-        </div>
-        <div class="mb-2">
-            <label>Content</label>
-            <textarea th:field="*{content}" class="form-control"></textarea>
-        </div>
-        <div class="mb-2">
-            <label>Created By</label>
-            <input type="text" th:field="*{createdBy}" class="form-control"/>
-        </div>
-        <div class="mb-2">
-            <label>Modified By</label>
-            <input type="text" th:field="*{modifiedBy}" class="form-control"/>
-        </div>
-        <button type="submit" class="btn btn-success" th:text="${template.id != null} ? 'Update' : 'Create'"></button>
-        <a th:href="@{/jolt-spec-templates}" class="btn btn-secondary">Clear</a>
-    </form>
+<hr/>
+        <h2 th:text="${template.id != null} ? 'Save JoltSpecTemplate' : 'Create JoltSpecTemplate'"></h2>
+        <form th:action="@{/jolt-spec-templates/save}" th:object="${template}" method="post" class="mb-4">
+            <input type="hidden" th:field="*{id}"/>
+            <div class="form-row">
+                <label>Name</label>
+                <input type="text" th:field="*{name}" class="form-control" required style="min-width:300px;"/>
+            </div>
+            <div class="form-row">
+                <label>Description</label>
+                <input type="text" th:field="*{description}" class="form-control" style="min-width:300px;"/>
+            </div>
+            <div class="form-row textarea-row">
+                <label>Content</label>
+                <textarea th:field="*{content}" class="form-control" rows="16" style="min-width:350px;"></textarea>
+            </div>
+            <div class="form-row">
+                <label>Created By</label>
+                <input type="text" th:field="*{createdBy}" class="form-control" style="min-width:200px;"/>
+            </div>
+            <div class="form-row">
+                <label>Modified By</label>
+                <input type="text" th:field="*{modifiedBy}" class="form-control" style="min-width:200px;"/>
+            </div>
+            <div class="form-group mt-3" style="text-align:center;" >
+                <button type="submit" class="btn">
+
+                    <span th:text="${template.id != null} ? 'Update' : 'Create'"><i class="fa-solid fa-save"></i> Create</span>
+                </button>
+                <a th:href="@{/jolt-spec-templates}" class="btn btn-secondary ms-2">
+                    <i class="fa-solid fa-eraser"></i> Clear
+                </a>
+            </div>
+        </form>
+    </div>
 </body>
 </html>

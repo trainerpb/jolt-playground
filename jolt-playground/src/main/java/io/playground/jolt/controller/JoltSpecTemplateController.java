@@ -1,56 +1,48 @@
 package io.playground.jolt.controller;
 
 import io.playground.jolt.model.JoltSpecTemplate;
+import io.playground.jolt.repository.JoltSpecTemplateRepository;
+import io.playground.jolt.service.JoltSpecCrudService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
-import java.util.List;
 import java.util.Optional;
 
-import io.playground.jolt.repository.JoltSpecTemplateRepository;
-
-@RestController
-@RequestMapping("/api/jolt-spec-templates")
+@Controller
+@RequestMapping("/jolt-spec-templates")
+@RequiredArgsConstructor
 public class JoltSpecTemplateController {
 
-    @Autowired
-    private JoltSpecTemplateRepository repository;
+
+    private final JoltSpecCrudService crudService;
+
 
     @GetMapping
-    public List<JoltSpecTemplate> getAll() {
-        return repository.findAll();
+    public String showPage(Model model) {
+        model.addAttribute("templates", crudService.getAllJoltSpecTemplates());
+        model.addAttribute("template", new JoltSpecTemplate());
+        return "jolt-spec-templates/crud";
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<JoltSpecTemplate> getById(@PathVariable Long id) {
-        Optional<JoltSpecTemplate> template = repository.findById(id);
-        return template.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    @PostMapping("/save")
+    public String save(@ModelAttribute("template") JoltSpecTemplate template) {
+        crudService.save(template);
+        return "redirect:/jolt-spec-templates";
     }
 
-    @PostMapping
-    public JoltSpecTemplate create(@RequestBody JoltSpecTemplate template) {
-        return repository.save(template);
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable Long id, Model model) {
+        JoltSpecTemplate template = crudService.getJoltSpecTemplate(id);
+        model.addAttribute("templates", crudService.getAllJoltSpecTemplates());
+        model.addAttribute("template", template);
+        return "jolt-spec-templates/crud";
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<JoltSpecTemplate> update(@PathVariable Long id, @RequestBody JoltSpecTemplate updated) {
-        return repository.findById(id)
-                .map(existing -> {
-                    updated.setId(id);
-                    return ResponseEntity.ok(repository.save(updated));
-                })
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        if (repository.existsById(id)) {
-            repository.deleteById(id);
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Long id) {
+        crudService.deleteJoltSpecTemplate(id);
+        return "redirect:/jolt-spec-templates";
     }
 }

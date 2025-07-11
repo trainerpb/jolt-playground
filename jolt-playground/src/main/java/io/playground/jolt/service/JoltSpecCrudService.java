@@ -77,11 +77,13 @@ public class JoltSpecCrudService {
      * Fetches a JoltSpecTemplate by its ID.
      *
      * @param id the ID of the template to fetch
+     * @return the JoltSpecTemplate with the specified ID
      */
-    public void getJoltSpecTemplate(Long id) {
+    public JoltSpecTemplate getJoltSpecTemplate(Long id) {
         JoltSpecTemplate joltSpecTemplate = joltSpecTemplateRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("JoltSpecTemplate not found with id: " + id));
         log.info("Fetched JoltSpecTemplate: {}", joltSpecTemplate);
+        return joltSpecTemplate;
 
     }
 
@@ -92,5 +94,15 @@ public class JoltSpecCrudService {
      */
     public Iterable<JoltSpecTemplate> getAllJoltSpecTemplates() {
         return joltSpecTemplateRepository.findAll();
+    }
+
+    /**
+     * Saves a JoltSpecTemplate.
+     *
+     * @param template the JoltSpecTemplate to save
+     * @return the saved JoltSpecTemplate
+     */
+    public JoltSpecTemplate save(JoltSpecTemplate template) {
+        return  joltSpecTemplateRepository.save(template);
     }
 }

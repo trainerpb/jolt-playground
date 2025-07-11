@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import java.util.Optional;
 
 @Controller
@@ -44,5 +46,12 @@ public class JoltSpecTemplateController {
     public String delete(@PathVariable Long id) {
         crudService.deleteJoltSpecTemplate(id);
         return "redirect:/jolt-spec-templates";
+    }
+
+    @GetMapping("/redirectToPlayground/{id}")
+    public String redirectToPlayground(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        JoltSpecTemplate joltSpecTemplate = crudService.getJoltSpecTemplate(id);
+        redirectAttributes.addFlashAttribute("spec", joltSpecTemplate.getContent());
+        return "redirect:/jolt-ui";
     }
 }

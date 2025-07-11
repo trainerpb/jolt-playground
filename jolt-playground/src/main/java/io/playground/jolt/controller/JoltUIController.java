@@ -43,9 +43,13 @@ public class JoltUIController {
 	}
 
 	@GetMapping
-	public ModelAndView userInputForm() {
+	public ModelAndView userInputForm(Model model) {
 		ModelAndView modelAndView = new ModelAndView(VIEWNAME_INPUT_FORM);
-		modelAndView.addObject(INPUT_FORM_DTO, new InputFormDto());
+		InputFormDto inputFormDto = new InputFormDto();
+		if(model.getAttribute("spec") != null && model.getAttribute("spec") instanceof String jsonSpec	) {
+			inputFormDto.setDsl(jsonSpec);
+		}
+		modelAndView.addObject(INPUT_FORM_DTO, inputFormDto);
 		return modelAndView;
 	}
 

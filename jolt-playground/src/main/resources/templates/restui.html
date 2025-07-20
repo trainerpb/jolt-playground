@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<title>REST UI</title>
+	<script>
+		function addRow() {
+			const mapContainer = document.getElementById("mapContainer");
+			const index = mapContainer.children.length;
+			const row = `
+                <div class="map-row" align="center">
+                    <input class="form-control input-sm"  type="text" name="requestHeaders[__${index}__][0]" placeholder="Header Name">
+                    <input class="form-control input-sm"  type="text" name="requestHeaders[__${index}__][1]" placeholder="Header Value">
+                    <button  class="btn btn-default"  type="button" onclick="this.parentElement.remove()"><i class="fa fa-trash"></i></button>
+					<button  class="btn btn-default"  type="button" onclick="addRow()"><i class="fa fa-plus"></i></button>
+                </div>`;
+			mapContainer.insertAdjacentHTML("beforeend", row.replace(/__/g, ''));
+		}
+	</script>
+</head>
+
+<body>
+	<div class="container">
+		<h1 align="center">REST UI</h1>
+
+		<form th:action="@{./rest-ui}" th:object="${dto}" method="post">
+			<div class="panel panel-default">
+				<div class="panel-heading">HTTP Request</div>
+				<div class="panel-body">
+					<div class="form-group">
+
+						<input class="form-control" type="url" id="tb_url" th:field="*{fullUrlString}" width=""
+							placeholder="API URL"><br><br>
+
+						<label for="tb_method">METHOD:</label>
+						<select class="form-control" type="text" id="tb_method" th:field="*{httpMethodString}">
+							<option value="GET">GET</option>
+							<option value="POST">POST</option>
+							<option value="PUT">PUT</option>
+							<option value="PATCH">PATCH</option>
+							<option value="DELETE">DELETE</option>
+						</select>
+						<br/>
+
+
+						<fieldset>
+
+							<legend align="right">Request Headers: <button type="button" onclick="addRow()"><i
+										class="fa fa-plus"></i></button></legend>
+
+
+							<div id="mapContainer">
+								<div class="map-row">
+
+								</div>
+							</div>
+						</fieldset>
+
+
+						<label for="tb_Payload">Request Payload:</label>
+						<textarea class="form-control" id="tb_Payload" th:field="*{httpRequestPayloadBody}" rows="10"
+							cols="80" placeholder="Payload"></textarea><br><br>
+
+
+
+
+					</div>
+					<div align="right">
+						<button type="submit" class="btn btn-primary">Send Request</button>
+					</div>
+				</div>
+			</div>
+			<hr />
+			<div class="panel panel-default">
+				<div class="panel-heading">Response</div>
+				<div class="panel-body">
+
+					<label for="tb_ResponsePayload">Response Body :</label>
+					<textarea class="form-control" id="tb_ResponsePayload" th:field="*{httpResponsePayloadBody}"
+						rows="10" cols="80" placeholder="Payload" readonly></textarea><br><br>
+
+
+
+
+					<div class="map-row">
+						<ul>
+							<li th:each="entry : ${dto.responseHeaders.entrySet()}">
+								<strong th:text="${entry.key}"></strong>
+								<ul>
+									<li th:each="value : ${entry.value}" th:text="${value}"></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+	</div>
+	</form>
+	</div>
+</body>
+
+</html>

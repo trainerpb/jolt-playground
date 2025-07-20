@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
-public class UIController {
+public class JoltUIController {
 
 	private static final String VIEWNAME_INPUT_FORM = "inputForm";
 
@@ -43,9 +43,13 @@ public class UIController {
 	}
 
 	@GetMapping
-	public ModelAndView userInputForm() {
+	public ModelAndView userInputForm(Model model) {
 		ModelAndView modelAndView = new ModelAndView(VIEWNAME_INPUT_FORM);
-		modelAndView.addObject(INPUT_FORM_DTO, new InputFormDto());
+		InputFormDto inputFormDto = new InputFormDto();
+		if(model.getAttribute("spec") != null && model.getAttribute("spec") instanceof String jsonSpec	) {
+			inputFormDto.setDsl(jsonSpec);
+		}
+		modelAndView.addObject(INPUT_FORM_DTO, inputFormDto);
 		return modelAndView;
 	}
 

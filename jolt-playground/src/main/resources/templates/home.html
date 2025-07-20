@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>DEV Utility</title>
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+		body {
+			font-family: 'Montserrat', Arial, sans-serif;
+			margin: 0;
+			background: linear-gradient(120deg, #232526 0%, #414345 100%);
+			color: #f4f4f4;
+			min-height: 100vh;
+		}
+
+		header {
+			text-align: center;
+			padding: 40px 20px 20px 20px;
+			background: rgba(34, 40, 49, 0.95);
+			box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+			border-bottom: 2px solid #00adb5;
+		}
+
+		header h1 {
+			margin: 0;
+			font-size: 2.8rem;
+			color: #00adb5;
+			letter-spacing: 2px;
+			font-weight: 700;
+			text-shadow: 1px 2px 8px #222;
+		}
+
+		nav {
+			display: flex;
+			justify-content: center;
+			background: rgba(57, 62, 70, 0.98);
+			box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+			margin-bottom: 30px;
+			gap: 10px;
+		}
+
+		nav a {
+			padding: 16px 32px;
+			margin: 8px 6px;
+			text-decoration: none;
+			color: #eeeeee;
+			font-size: 1.08rem;
+			font-weight: 500;
+			text-transform: uppercase;
+			border-radius: 30px;
+			background: linear-gradient(90deg, #393e46 60%, #00adb5 100%);
+			transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+			box-shadow: 0 2px 8px rgba(0,173,181,0.08);
+			border: 1px solid transparent;
+			letter-spacing: 1px;
+		}
+
+		nav a:hover {
+			background: linear-gradient(90deg, #00adb5 60%, #393e46 100%);
+			color: #222831;
+			box-shadow: 0 4px 16px rgba(0,173,181,0.18);
+			border: 1px solid #00adb5;
+		}
+
+		main {
+			padding: 40px 20px 80px 20px;
+			text-align: center;
+			max-width: 700px;
+			margin: 0 auto;
+			background: rgba(34, 40, 49, 0.85);
+			border-radius: 18px;
+			box-shadow: 0 6px 32px rgba(0,0,0,0.12);
+		}
+
+		main h2 {
+			font-size: 2rem;
+			color: #00adb5;
+			margin-bottom: 18px;
+			font-weight: 600;
+		}
+
+		main p {
+			font-size: 1.1rem;
+			color: #eeeeee;
+			margin-bottom: 0;
+		}
+
+		footer {
+			text-align: center;
+			padding: 18px 10px;
+			background: rgba(57, 62, 70, 0.98);
+			position: fixed;
+			bottom: 0;
+			width: 100%;
+			font-size: 1rem;
+			color: #eeeeee;
+			letter-spacing: 1px;
+			box-shadow: 0 -2px 12px rgba(0,0,0,0.12);
+		}
+
+		footer a {
+			text-decoration: none;
+			color: #00adb5;
+			font-weight: 600;
+			transition: color 0.2s;
+		}
+
+		footer a:hover {
+			text-decoration: underline;
+			color: #ffeb3b;
+		}
+
+		@media (max-width: 600px) {
+			header h1 {
+				font-size: 2rem;
+			}
+			nav a {
+				padding: 10px 12px;
+				font-size: 0.95rem;
+			}
+			main {
+				padding: 18px 5px 70px 5px;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<header>
+		<h1>Developers' Utilities</h1>
+	</header>
+	<nav>
+		<a href="common-ui/rest-ui" target="_blank">REST Client</a>
+		<a href="common-ui/jsontree" target="_blank">JSON Tree Viewer</a>
+		<a href="jolt-ui" target="_blank">JOLT Transformation</a>
+		<a href="jolt-spec-templates" target="_blank">JOLT Template <span style="color:#ffeb3b;">(** NEW)</span></a>
+	</nav>
+	<main>
+		<h2>This is where you find common DEV Utils</h2>
+		<p>This does not collect user data</p>
+	</main>
+	<footer>
+		<p>Created by <a href="#">Soham Senguppta</a>. &copy; 2025</p>
+	</footer>
+</body>
+
+</html>
